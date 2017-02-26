@@ -4,7 +4,7 @@ class User(models.Model):
 	username = models.CharField(max_length=20,blank=False)
 	name = models.CharField(max_length=30,blank=False)
 	contact = models.CharField(max_length=15,blank=False)
-	password = models.CharField(max_length=20,blank=False)
+	password = models.CharField(max_length=100,blank=False)
 
 	def __unicode__(self):
 		return self.username
@@ -49,7 +49,7 @@ class Item(models.Model):
 class Restaurant(models.Model):
 	id = models.CharField(max_length=20,blank=False,unique=True,primary_key=True)
 	name = models.CharField(max_length=100,blank=False)
-	password = models.CharField(max_length=30,blank=False)
+	password = models.CharField(max_length=100,blank=False)
 	info = models.TextField()
 	location = models.TextField()
 

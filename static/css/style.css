@@ -442,7 +442,7 @@ a.simpleCart_empty {
 	text-align: center;
 }
 .ordering-section-grid-process label{
-	
+
 }
 .ordering-section-grid-process span{
 	font-weight:300;
@@ -1449,7 +1449,7 @@ p.comment-form-author {
 	-o-transition: 0.2s;
 }
 .contact-form input[type="submit"]:hover{
-	background:#26d2fc;	
+	background:#26d2fc;
 }
 .map{
 	position:relative;
@@ -1565,7 +1565,7 @@ i.mail{
 	display: block;
 	text-transform: uppercase;
 }
-.login-right input[type="text"] {
+.login-right input[type="text"],  input[type="password"] {
 	border: 1px solid #EEE;
 	outline-color:#fb4d01;
 	width: 96%;
@@ -2133,7 +2133,7 @@ address {
 	width:75%;
 }
 .flat{
-	position: relative;	
+	position: relative;
 	cursor: pointer;
 	font-weight:600;
 	background:#fff;
@@ -2172,7 +2172,7 @@ address {
 	height: 100%;
 	opacity: 0;
 }
-/* SELECTED FEEDBACK ITEM */ 
+/* SELECTED FEEDBACK ITEM */
 .flat .selected {
     color:#fff;
 }
@@ -2187,7 +2187,7 @@ address {
 	font-weight: 300;
 	color:#000000;
 	font-weight:600;
-	
+
 }
 .flat .selected::after{
 	content: '';
@@ -2318,7 +2318,7 @@ address {
 	background:#5BBD50;
 	color:#fff;
 	margin: 1em 0 0 8em;
-	
+
 }
 .order-form-grid input[type="button"]:hover{
 	background:#E24425;
@@ -2336,7 +2336,7 @@ address {
 }
 .logo-title{
 	border-bottom:1px dotted #000000;
-	width: 63%;	
+	width: 63%;
 	margin-bottom: 0.8em;
 }
 .buy{
@@ -2602,7 +2602,7 @@ a.morebtn{
 	span.middle-dotted-line {
 		left: 31.5em;
 		bottom: -209px;
-	}	
+	}
 	.service-section-top-row-grid1 h3 {
 		font-size: 1.9em;
 		padding-top: 1.4em;
@@ -3203,7 +3203,7 @@ a.morebtn{
 	a.morebtn {
 		padding: 0.2em 1.2em;
 	}
-	
+
 }
 @media screen and (max-width:640px){
 	.container {
@@ -3823,7 +3823,7 @@ a.morebtn{
 		font-size: 1.2em;
 	}
 	.form-list ul li {
-		display: block; 
+		display: block;
 		width: 88%;
 	}
 	.form-list span {
@@ -3997,7 +3997,7 @@ a.morebtn{
 	.login-right span {
 		font-size: 0.875em;
 	}
-	.login-right input[type="text"] {
+	.login-right input[type="text"], input[type="password"] {
 		padding: 0.4em;
 	}
 	.contact-head h3 {

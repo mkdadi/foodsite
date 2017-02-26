@@ -28,16 +28,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="col-md-6 login-right wow fadeInRight" data-wow-delay="0.4s">
 			  	<h3>User Login</h3>
 				<p>If you have an User account with us, please log in here.</p>
+					{% if nouser %}
+					<div class="alert alert-danger">
+						<a class="alert-link">No such User</a>
+					</div>
+					{% endif %}
+					{% if wrongupass %}
+					<div class="alert alert-danger">
+						<a class="alert-link">Wrong Password</a>
+					</div>
+					{% endif %}
 				<form action="" method="POST">{% csrf_token %}
 				  <div>
-					<span>Email Address<label>*</label></span>
-					<input type="text">
+					<span>Username<label>*</label></span>
+					<input type="text" name="username" required>
 				  </div>
 				  <div>
 					<span>Password<label>*</label></span>
-					<input type="text">
+					<input type="password" name="password" required>
 				  </div>
-				  <a class="forgot" href="#">Forgot Your Password?</a>
 					<input type="hidden" name="login" value="1">
 				  <input type="submit" value="Login">
 			    </form>
@@ -45,16 +54,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			   <div class="col-md-6 login-right wow fadeInRight" data-wow-delay="0.4s">
 			  	<h3>Restaurant Login</h3>
 				<p>If you have a Restaurant account with us, please log in here.</p>
+				   {% if norest %}
+					<div class="alert alert-danger">
+						<a class="alert-link">No such Restaurant</a>
+					</div>
+					{% endif %}
+				   {% if wrongrpass %}
+					<div class="alert alert-danger">
+						<a class="alert-link">Wrong Password</a>
+					</div>
+					{% endif %}
 				<form action="" method="POST">{% csrf_token %}
 				  <div>
-					<span>Email Address<label>*</label></span>
-					<input type="text">
+					<span>Restaurant ID<label>*</label></span>
+					<input type="text" name="restid" required>
 				  </div>
 				  <div>
 					<span>Password<label>*</label></span>
-					<input type="text">
+					<input type="password" name="password" required>
 				  </div>
-				  <a class="forgot" href="#">Forgot Your Password?</a>
 					<input type="hidden" name="login" value="2">
 				  <input type="submit" value="Login">
 			    </form>
