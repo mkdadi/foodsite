@@ -1,0 +1,51 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+{% load staticfiles %}
+{% include 'header.html' %}
+
+	<div class="content">
+	<div class="main">
+	   <div class="container">
+		  <div class="register">
+		  	  <form action="" method="POST">{% csrf_token %}
+				 <div class="register-top-grid">
+					<h3>PERSONAL INFORMATION</h3>
+					 <div class="wow fadeInLeft" data-wow-delay="0.4s">
+						<span>Name<label>*</label></span>
+						<input type="text" name="name">
+					 </div>
+					 <div class="wow fadeInRight" data-wow-delay="0.4s">
+						<span>Contact<label>*</label></span>
+						<input type="text" name="contact">
+					 </div>
+					 <div class="wow fadeInLeft" data-wow-delay="0.4s">
+						 <span>Email Address<label>*</label></span>
+						 <input type="text" name="email">
+					 </div>
+					 <div class="wow fadeInRight" data-wow-delay="0.4s">
+						 <span>Username<label>*</label></span>
+						 <input type="text" name="username">
+					 </div>
+					 <div class="wow fadeInLeft" data-wow-delay="0.4s">
+						<span>Password<label>*</label></span>
+						<input type="text" name="password">
+					 </div>
+					 <div class="wow fadeInRight" data-wow-delay="0.4s">
+						<span>Confirm Password<label>*</label></span>
+						<input type="text" name="cpassword">
+					 </div>
+					 </div>
+					 <div class="register-but">
+				  		<input type="submit" value="submit">
+					 </div>
+				   </form>
+				</div>
+		   </div>
+	     </div>
+    </div>
+
+{% include 'footer.html' %}
