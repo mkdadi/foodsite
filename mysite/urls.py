@@ -14,14 +14,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
+from django.views.generic.base import RedirectView
 from django.contrib import admin
-from views import homepage,login,profile,viewrestaurants,register
+from views import homepage,login,profile,viewrestaurants,register,logout
+
+RedirectView.permanent=True
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$',homepage),
     url(r'^profile/$',profile),
-    url(r'^login/$',login),
+    url(r'^login/$',login,name="loginpage"),
     url(r'^register/$',register),
     url(r'^restaurants/$',viewrestaurants),
+    url(r'^logout/$',logout),
+    url(r'^.*$',RedirectView.as_view(url="/")),#redirection if not found
 ]

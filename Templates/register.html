@@ -11,36 +11,96 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<div class="main">
 	   <div class="container">
 		  <div class="register">
+			  {% if wrongmatch == 1 %}
+			  <div class="alert alert-danger">
+						<a class="alert-link">Passwords doesn't match</a>
+			  </div>
+			  <br/>
+			  {% endif %}
+			  {% if user == 1 %}
+			  <div class="alert alert-danger">
+						<a class="alert-link">Username taken</a>
+			  </div>
+			  <br/>
+			  {% endif %}
 		  	  <form action="" method="POST">{% csrf_token %}
 				 <div class="register-top-grid">
-					<h3>PERSONAL INFORMATION</h3>
+					<h3>User Registration</h3>
 					 <div class="wow fadeInLeft" data-wow-delay="0.4s">
 						<span>Name<label>*</label></span>
-						<input type="text" name="name">
+						<input type="text" name="name" required>
 					 </div>
 					 <div class="wow fadeInRight" data-wow-delay="0.4s">
 						<span>Contact<label>*</label></span>
-						<input type="text" name="contact">
+						<input type="text" name="contact" required>
 					 </div>
 					 <div class="wow fadeInLeft" data-wow-delay="0.4s">
-						 <span>Email Address<label>*</label></span>
+						 <span>Email Address</span>
 						 <input type="text" name="email">
 					 </div>
 					 <div class="wow fadeInRight" data-wow-delay="0.4s">
 						 <span>Username<label>*</label></span>
-						 <input type="text" name="username">
+						 <input type="text" name="username" required>
 					 </div>
 					 <div class="wow fadeInLeft" data-wow-delay="0.4s">
 						<span>Password<label>*</label></span>
-						<input type="text" name="password">
+						<input type="password" name="password" required>
 					 </div>
 					 <div class="wow fadeInRight" data-wow-delay="0.4s">
 						<span>Confirm Password<label>*</label></span>
-						<input type="text" name="cpassword">
+						<input type="password" name="cpassword" required>
+					 </div>
+					 </div>
+					 <div class="register-but">
+						 <input type="hidden" name="register" value="1">
+				  		<input type="submit" value="submit">
+					 </div>
+				   </form>
+			  <br/>
+			  {% if wrongmatch == 2 %}
+			  <div class="alert alert-danger">
+						<a class="alert-link">Passwords doesn't match</a>
+			  </div>
+			  <br/>
+			  {% endif %}
+			  {% if rest == 1 %}
+			  <div class="alert alert-danger">
+						<a class="alert-link">Restaurant ID taken</a>
+			  </div>
+			  <br/>
+			  {% endif %}
+			  <br/>
+			  <form action="" method="POST">{% csrf_token %}
+				 <div class="register-top-grid">
+					<h3>Restaurant Registration</h3>
+					 <div class="wow fadeInLeft" data-wow-delay="0.4s">
+						<span>Name<label>*</label></span>
+						<input type="text" name="name" required>
+					 </div>
+					 <div class="wow fadeInRight" data-wow-delay="0.4s">
+						<span>ID<label>*</label></span>
+						<input type="text" name="id" required>
+					 </div>
+					 <div class="wow fadeInLeft" data-wow-delay="0.4s">
+						 <span>Info</span>
+						 <input type="text" name="info">
+					 </div>
+					 <div class="wow fadeInRight" data-wow-delay="0.4s">
+						 <span>Location<label>*</label></span>
+						 <input type="text" name="location" required>
+					 </div>
+					 <div class="wow fadeInLeft" data-wow-delay="0.4s">
+						<span>Password<label>*</label></span>
+						<input type="password" name="password" required>
+					 </div>
+					 <div class="wow fadeInRight" data-wow-delay="0.4s">
+						<span>Confirm Password<label>*</label></span>
+						<input type="password" name="cpassword" required>
 					 </div>
 					 </div>
 					 <div class="register-but">
 				  		<input type="submit" value="submit">
+						 <input type="hidden" name="register" value="2">
 					 </div>
 				   </form>
 				</div>

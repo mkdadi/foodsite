@@ -7,6 +7,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <!--{% load staticfiles %}-->
 {% include 'header.html' %}
+{% if loggedout %}
+<div class="alert alert-success" style="margin:0px;">Logged out Successfully..</div>
+{% endif %}
 		<div class="banner wow fadeInUp" data-wow-delay="0.4s" id="Home">
 		    <div class="container">
 				<div class="banner-info">
@@ -17,42 +20,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<h2>Register Now<br/>and<br/>Order Online</h2>
 						</div>
 					</div>
-					<!--<div class="form-list wow fadeInRight" data-wow-delay="0.5s">
-						<form>
-						  <ul class="navmain">
-							<li><span>Location Name</span>
-							 <input type="text" class="text" value="Secunderabad" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Secunderabad';}">
-							</li>
-							<li><span>Restaurant Name</span>
-							 <input type="text" class="text" value="Swagath Grand" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Swagath Grand';}">
-							</li>
-							<li><span>Cuisine Name</span>
-							 <input type="text" class="text" value="Chicken Biriyani" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Chicken Biriyani';}">
-						    </li>
-						  </ul>
-						</form>
-						</div>-->
-					<!-- start search-->
-		 <!--<div class="main-search">-->
-	        <!--<form action="search.html">-->
-	           <!--<input type="text" value="Search" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = 'Search';}" class="text"/>-->
-	            <!--<input type="submit" value=""/>-->
-	        <!--</form>-->
-	        <!--<div class="close"><img src="/static/images/cross.png" /></div>-->
-	    <!--</div>-->
-	    <!--<div class="srch"><button></button></div>-->
-		<!--<script type="text/javascript">-->
-	         <!--$('.main-search').hide();-->
-	        <!--$('button').click(function (){-->
-	            <!--$('.main-search').show();-->
-	            <!--$('.main-search text').focus();-->
-	        <!--}-->
-	        <!--);-->
-	        <!--$('.close').click(function(){-->
-	            <!--$('.main-search').hide();-->
-	        <!--});-->
-	    <!--</script>-->
-					
 				</div>
 			</div>
 		</div>
@@ -141,36 +108,36 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</div>
 					<div class="top-cuisine-grids">
 						<div class="top-cuisine-grid wow bounceIn" data-wow-delay="0.4s">
-						    <a href=""><img src="/static/images/cuisine1.jpg" class="img-responsive" alt="" /> </a>
-							<label>Cuisine Name</label>
+						    <a href="/login/"><img src="/static/images/cuisine1.jpg" class="img-responsive" alt="" /> </a>
+							<label>Pizza</label>
 					    </div>
 						<div class="top-cuisine-grid wow bounceIn" data-wow-delay="0.4s">
-						    <a href=""><img src="/static/images/cuisine2.jpg" class="img-responsive" alt="" /> </a>
-							<label>Cuisine Name</label>
+						    <a href="/login/"><img src="/static/images/cuisine2.jpg" class="img-responsive" alt="" /> </a>
+							<label>Burger</label>
 					    </div>
 						<div class="top-cuisine-grid wow bounceIn" data-wow-delay="0.4s">
-						    <a href=""><img src="/static/images/cuisine3.jpg" class="img-responsive" alt="" /> </a>
-							<label>Cuisine Name</label>
+						    <a href="/login/"><img src="/static/images/cuisine3.jpg" class="img-responsive" alt="" /> </a>
+							<label>Dough Nut</label>
 					    </div>
 						<div class="top-cuisine-grid nth-grid wow bounceIn" data-wow-delay="0.4s">
-						    <a href=""><img src="/static/images/cuisine4.jpg" class="img-responsive" alt="" /> </a>
-							<label>Cuisine Name</label>
+						    <a href="/login/"><img src="/static/images/cuisine4.jpg" class="img-responsive" alt="" /> </a>
+							<label>Curry</label>
 					    </div>
 						<div class="top-cuisine-grid nth-grid1 wow bounceIn" data-wow-delay="0.4s">
-						    <a href=""><img src="/static/images/cuisine5.jpg" class="img-responsive" alt="" /> </a>
-							<label>Cuisine Name</label>
+						    <a href="/login/"><img src="/static/images/cuisine5.jpg" class="img-responsive" alt="" /> </a>
+							<label>Strips</label>
 					    </div>
 						<div class="top-cuisine-grid nth-grid1 wow bounceIn" data-wow-delay="0.4s">
-						    <a href=""><img src="/static/images/cuisine6.jpg" class="img-responsive" alt="" /> </a>
-							<label>Cuisine Name</label>
+						    <a href="/login/"><img src="/static/images/cuisine6.jpg" class="img-responsive" alt="" /> </a>
+							<label>Frawn Rice</label>
 					    </div>
 						<div class="top-cuisine-grid nth-grid1 wow bounceIn" data-wow-delay="0.4s">
-						    <a href=""><img src="/static/images/cuisine7.jpg" class="img-responsive" alt="" /> </a>
-							<label>Cuisine Name</label>
+						    <a href="/login/"><img src="/static/images/cuisine7.jpg" class="img-responsive" alt="" /> </a>
+							<label>Fingers</label>
 					    </div>
 						<div class="top-cuisine-grid nth-grid nth-grid1 wow bounceIn" data-wow-delay="0.4s">
-						    <a href=""><img src="/static/images/cuisine8.jpg" class="img-responsive" alt="" /> </a>
-							<label>Cuisine Name</label>
+						    <a href="/login/"><img src="/static/images/cuisine8.jpg" class="img-responsive" alt="" /> </a>
+							<label>Cuisine</label>
 					    </div>
 						<div class="clearfix"></div>
 					</div>

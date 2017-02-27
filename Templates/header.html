@@ -65,9 +65,10 @@
 					</ul>
 				</div>
 				<div class="login-section">
-				{% if logged_in %}
+				{% if loggedin %}
 					<ul>
-						<li><a href="/profile/" >Hi {{ username }}</a></li>
+						<li><a href="/profile/" >Hi {{ username }}</a></li> |
+						<li><a href="/logout/">Logout</a> </li>
 					</ul>
 				{% else %}
 					<ul>
