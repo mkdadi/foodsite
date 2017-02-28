@@ -40,10 +40,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<br/><br/>
 						<form action="" method="POST">{% csrf_token %}
 							<span>Address:</span>
-							<div><input type="text" name="address" style="width:100%;"/></div>
+							<div><input type="text" name="address" style="width:100%;" required/></div>
 							<input type="hidden" name="oid" value="{{oid}}">
 							<br/>
-							<input type="submit" value="Order" name="submit">
+							<input type="submit" class="btn btn-success" value="Order" name="submit">
 						</form>
 					</div>
 				</div>
