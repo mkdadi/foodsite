@@ -62,6 +62,7 @@ class Restaurant(models.Model):
 	)
 
 	status = models.CharField(max_length=50,choices=REST_STATE_CHOICES,default=REST_STATE_OPEN)
+	approved = models.BooleanField(blank=False,default=False)
 
 
 	def __unicode__(self):

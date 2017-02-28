@@ -64,7 +64,6 @@ def restaurantlogin(request):
 
     if len(rests) == 1:
         rest = rests[0]
-        print xor_strings(request.POST['password'])
         if xor_strings(request.POST['password']) == rest.password:
             response = redirect('/')
             response.set_cookie('login',2,max_age=365*24*60*60)
@@ -146,26 +145,97 @@ def register(request):
             else:
                 return userregister(request)
         else:
-            print context
             return render(request,'register.html',context)
     else:
         return redirect('/')
 
 
 def profile(request):
-    if check_login_cookie(request) is 0:
+    x = check_login_cookie(request)
+    if x is 0:
         return redirect('/login/')
     else:
-        #TODO
-        pass
+        if x[0] == 1:
+            users = md.User.objects.filter(username=x[1])
+            user = users[0]
+            context = {
+                'login' : 1,
+                'loggedin':1,
+                'username':user.username,
+                'name' : user.name,
+                'contact' : user.contact,
+            }
+
+            return render(request,'profile.html',context)
+        else:
+            rests = md.Restaurant.objects.filter(id=x[1])
+            rest = rests[0]
+            context = {
+                'login' : 2,
+                'loggedin':1,
+                'username':rest.id,
+                'id':rest.id,
+                'name' : rest.name,
+                'info' : rest.info,
+                'location' : rest.location,
+            }
+
+            return render(request,'profile.html',context)
 
 
-def viewrestaurants(request):
-    if check_login_cookie(request) is 0:
-        return redirect('/login/')
+def restaurants(request,restid="0"):
+    if restid != "0":
+        menu = md.Menu.objects.filter(restaurant_id=restid)
+        rest = md.Restaurant.objects.filter(id=restid)
+
+        items = []
+        for x in menu:
+            item = md.Item.objects.filter(name=x.item_id)
+            for a in item:
+                b=[]
+                b.append(a.name)
+                b.append(a.category)
+                b.append(x.price)
+                b.append(x.quantity)
+                b.append(rest[0].status)
+                b.append(x.id)
+                items.append(b)
+
+        context = {
+            'items' : items,
+            'loggedin':1,
+            "username": check_login_cookie(request)[1],
+            "restid":restid,
+        }
+        restid = "0"
+        return render(request,'orders-list.html',context)
+
     else:
-        #TODO
-        pass
+        rests = md.Restaurant.objects.filter(approved=True)
+        search=request.GET.get('category',0)
+        if search==0:
+            context = {
+                "rests" : rests,
+                "loggedin" : 1,
+                "username": check_login_cookie(request)[1],
+            }
+        else:
+            items = md.Item.objects.filter(category__icontains=search)
+            sitems = []
+            srests = []
+            for x in items:
+                sitems.append(x)
+                menu = md.Menu.objects.filter(item_id=x.id)
+                for a in menu:
+                    restaurants1 = md.Restaurant.objects.filter(name=a.restaurant_id)
+                    for b in restaurants1:
+                        srests.append(b)
+            context = {
+                "rests" : srests,
+                "loggedin":1,
+                "username": check_login_cookie(request)[1],
+            }
+        return render(request,'popular-Restaurents.html',context)
 
 
 def logout(request):
