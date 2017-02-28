@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.views.generic.base import RedirectView
 from django.contrib import admin
-from views import homepage,login,profile,restaurants,register,logout
+from views import homepage,login,profile,restaurants,register,logout,checkout
 
 RedirectView.permanent=True
 
@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^search/$',restaurants),
     url(r'^search/(?P<restid>\w+)$',restaurants),
     url(r'^logout/$',logout),
+    url(r'^checkout/$',checkout),
     url(r'^.*$',RedirectView.as_view(url="/")),#redirection if not found
 ]

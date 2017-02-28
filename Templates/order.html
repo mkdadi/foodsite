@@ -17,41 +17,34 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					
 					<div class="order-form-grid  wow fadeInLeft" data-wow-delay="0.4s">
 						<h5>Order Information</h5>
-								<span>Type of Order</span>
-								 <div class="dropdown-button">           			
-            			<select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
-            			<option value="0">Pick up</option>	
-						<option value="1">Delivery</option>
-						<option value="2">Catering</option>
-					  </select>
-					</div>
-		              <span>Restaurant Location</span>
-					   <div class="dropdown-button wow">           			
-            			<select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
-            			<option value="0">Restaurent A,144 East MG Road Indore</option>	
-						<option value="1">Restaurent B,64 Paarli Hills IndoreIndore</option>
-					  </select> 
-					</div>
-					<span>Location name</span>
-								 <div class="dropdown-button">           			
-            			<select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
-            			<option value="0">Secundrabad</option>	
-						<option value="1">Location-1</option>
-						<option value="2">Location-2</option>
-					  </select>
-					</div>
-					<span>cuisine-name</span>
-					   <div class="dropdown-button">           			
-            			<select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
-            			<option value="0">cuisine-name</option>	
-						<option value="1">cuisine-name</option>
-						<option value="2">cuisine-name</option>
-					  </select> 
-					</div>
-					<input type="text" class="text" value="Time" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Time';}"><br>
-					<div class="wow swing animated" data-wow-delay= "0.4s">
-					<input type="button" value="order now">
-					</div>
+						<span>Items List:</span>
+						<div>
+						<table class="table table-hover table-bordered">
+							<thead>
+							<th>
+								Name
+							</th>
+							<th>
+								Quantity
+							</th>
+							<th>
+								Price
+							</th>
+							</thead>
+						{% for x in items %}
+							<tr><td>{{x.0}}</td><td>{{x.1}}</td><td>{{x.2}}</td></tr>
+						{% endfor %}
+						</table>
+						</div>
+						<span><b>Total price: </b></span><span>{{totalprice}}</span>
+						<br/><br/>
+						<form action="" method="POST">{% csrf_token %}
+							<span>Address:</span>
+							<div><input type="text" name="address" style="width:100%;"/></div>
+							<input type="hidden" name="oid" value="{{oid}}">
+							<br/>
+							<input type="submit" value="Order" name="submit">
+						</form>
 					</div>
 				</div>
 				<div class="col-md-6 ordering-image wow bounceIn" data-wow-delay="0.4s">
@@ -59,6 +52,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</div>
 			</div>
 		</div>
+	</div>
 	<!-- footer-section-starts -->
 	<div class="footer">
 		<div class="container">

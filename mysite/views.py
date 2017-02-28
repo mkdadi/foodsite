@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from collections import Counter
 import models as md
 
 
@@ -35,7 +36,7 @@ def homepage(request):
         context['loggedin'] = x[0]
         context['username'] = x[1]
         if x[0] == 1:
-            return render(request,'order.html',context)
+            return redirect(restaurants)#render(request,'order.html',context)
         else:
             return render(request,'edit.html',context)
 
@@ -184,6 +185,9 @@ def profile(request):
 
 
 def restaurants(request,restid="0"):
+    z=check_login_cookie(request)
+    if z == 0:
+        return redirect('/login/')
     if restid != "0":
         menu = md.Menu.objects.filter(restaurant_id=restid)
         rest = md.Restaurant.objects.filter(id=restid)
@@ -206,6 +210,9 @@ def restaurants(request,restid="0"):
             'loggedin':1,
             "username": check_login_cookie(request)[1],
             "restid":restid,
+            "restname": rest[0].name,
+            "restinfo": rest[0].info,
+            "restlocation" : rest[0].location,
         }
         restid = "0"
         return render(request,'orders-list.html',context)
@@ -213,23 +220,25 @@ def restaurants(request,restid="0"):
     else:
         rests = md.Restaurant.objects.filter(approved=True)
         search=request.GET.get('category',0)
+        placed = request.GET.get('placed',0)
         if search==0:
             context = {
                 "rests" : rests,
                 "loggedin" : 1,
-                "username": check_login_cookie(request)[1],
+                "username": z[1],
             }
+            if placed:
+                context['placed'] = 1
         else:
             items = md.Item.objects.filter(category__icontains=search)
-            sitems = []
             srests = []
             for x in items:
-                sitems.append(x)
                 menu = md.Menu.objects.filter(item_id=x.id)
                 for a in menu:
                     restaurants1 = md.Restaurant.objects.filter(name=a.restaurant_id)
                     for b in restaurants1:
-                        srests.append(b)
+                        if b not in srests:
+                            srests.append(b)
             context = {
                 "rests" : srests,
                 "loggedin":1,
@@ -242,4 +251,52 @@ def logout(request):
     response = redirect('/?loggedout=1')
     response.delete_cookie('login')
     response.delete_cookie('id')
+    response.delete_cookie('cart')
+    response.delete_cookie('rest')
     return response
+
+
+def checkout(request):
+    z=check_login_cookie(request)
+    if z == 0:
+        return redirect('/login/')
+    if request.POST:
+        addr = request.POST['address']
+        oid = request.POST['oid']
+        print oid
+        md.Order.objects.filter(id=int(oid)).update(delivery_addr = addr,
+                                                    status=md.Order.ORDER_STATE_PLACED)
+
+        return redirect('/search/?placed=1')
+
+    else:
+        cart = request.COOKIES['cart'].split(",")
+        cart = dict(Counter(cart))
+        items = []
+        totalprice = 0
+        oid = md.Order()
+        oid.save()
+        for x,y in cart.iteritems():
+            item = []
+            it = md.Menu.objects.filter(id=int(x))
+            if len(it):
+                oiid = md.OrderItems()
+                oiid.item = it[0]
+                oiid.quantity = int(y)
+                oiid.oid = oid
+                oiid.save()
+                totalprice += int(y)*it[0].price
+                item.append(it[0])
+                item.append(y)
+                item.append(it[0].price*int(y))
+            items.append(item)
+        oid.total_amount = totalprice
+        oid.save()
+        context={
+            "items" : items,
+            "totalprice" : totalprice,
+            "oid":oid.id,
+            "loggedin":1,
+            "username":z[1],
+        }
+        return render(request,'order.html',context)

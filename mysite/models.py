@@ -13,10 +13,11 @@ class User(models.Model):
 class Order(models.Model):
 	id = models.IntegerField(blank=False)
 	id = models.AutoField(primary_key=True)
-	total_amount = models.IntegerField(blank=False)
+	total_amount = models.IntegerField(default=0)
 	timestamp = models.DateTimeField(auto_now_add=True)
-	delivery_addr = models.CharField(max_length=50,blank=False)
+	delivery_addr = models.CharField(max_length=50,blank=True)
 
+	ORDER_STATE_WAITING = "Waiting"
 	ORDER_STATE_PLACED = "Placed"
 	ORDER_STATE_ACKNOWLEDGED = "Acknowledged"
 	ORDER_STATE_COMPLETED = "Completed"
@@ -24,17 +25,18 @@ class Order(models.Model):
 	ORDER_STATE_DISPATCHED = "Dispatched"
 
 	ORDER_STATE_CHOICES = (
+		(ORDER_STATE_WAITING,ORDER_STATE_WAITING),
 	    (ORDER_STATE_PLACED, ORDER_STATE_PLACED),
 	    (ORDER_STATE_ACKNOWLEDGED, ORDER_STATE_ACKNOWLEDGED),
 	    (ORDER_STATE_COMPLETED, ORDER_STATE_COMPLETED),
 	    (ORDER_STATE_CANCELLED, ORDER_STATE_CANCELLED),
 	    (ORDER_STATE_DISPATCHED, ORDER_STATE_DISPATCHED)
 	)
-
-	status = models.CharField(max_length=50,choices=ORDER_STATE_CHOICES,default=ORDER_STATE_PLACED)
+	status = models.CharField(max_length=50,choices=ORDER_STATE_CHOICES,default=ORDER_STATE_WAITING)
 
 	def __unicode__(self):
 		return str(self.id)+' '+self.status
+
 
 class Item(models.Model):
 	id = models.IntegerField(blank=False)
@@ -81,3 +83,15 @@ class Menu(models.Model):
 
 	def __unicode__(self):
 		return self.item_id.name+' - '+self.restaurant_id.name+' - '+str(self.price)
+
+
+
+class OrderItems(models.Model):
+	id = models.IntegerField(blank=False)
+	id = models.AutoField(primary_key=True)
+	item = models.ForeignKey(Menu)
+	oid = models.ForeignKey(Order)
+	quantity = models.IntegerField(blank=False)
+
+	def __unicode__(self):
+		return str(self.id)

@@ -6,6 +6,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 {% load staticfiles %}
 {% include 'header.html' %}
+<div class="bs-callout bs-callout-info" style="width: 80%;margin-left: 10%;">
+  <h4>{{restname}}</h4>
+  	<p>
+		<b>Info : </b>{{restinfo}}
+		<br/>
+		<b>Location: </b>{{restlocation}}
+	</p>
+</div>
 	<div class="orders">
 	<div class="container">
 		<div class="order-top" style="border:0">
@@ -63,8 +71,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	};
 
 	function storearray(){
-		sessionStorage.setItem('cart', cart);
-		sessionStorage.setItem('rest',"{{restid}}");
+		document.cookie = "cart="+cart+";Path=/";
+		document.cookie ="rest={{restid}};Path=/";
 		window.location = "/checkout/";
 	};
 </script>
