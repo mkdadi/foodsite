@@ -215,7 +215,7 @@ def restaurants(request,restid="0"):
             "restlocation" : rest[0].location,
         }
         restid = "0"
-        return render(request,'orders-list.html',context)
+        return render(request,'items-list.html',context)
 
     else:
         rests = md.Restaurant.objects.filter(approved=True)
@@ -300,3 +300,7 @@ def checkout(request):
             "username":z[1],
         }
         return render(request,'order.html',context)
+
+
+def orderlist(request):
+    pass
