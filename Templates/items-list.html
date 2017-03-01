@@ -66,6 +66,11 @@
 	};
 
 	function storearray(){
+		if(cart.length === 0)
+		{
+			alert('No items selected');
+			return false;
+		}
 		document.cookie = "cart="+cart+";Path=/";
 		document.cookie ="rest={{restid}};Path=/";
 		window.location = "/checkout/";

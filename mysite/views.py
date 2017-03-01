@@ -36,7 +36,7 @@ def homepage(request):
         context['loggedin'] = x[0]
         context['username'] = x[1]
         if x[0] == 1:
-            return redirect(restaurants)#render(request,'order.html',context)
+            return orderhistory(request,x[1])#render(request,'order.html',context)
         else:
             return redirect(orderlist)
 
@@ -173,7 +173,7 @@ def profile(request):
             rest = rests[0]
             context = {
                 'login' : 2,
-                'loggedin':1,
+                'loggedin':2,
                 'username':rest.id,
                 'id':rest.id,
                 'name' : rest.name,
@@ -296,6 +296,8 @@ def checkout(request):
                 oiid.save()
                 totalprice += int(y)*it[0].price
                 item.append(it[0])
+                it[0].quantity = it[0].quantity - y
+                it[0].save()
                 item.append(y)
                 item.append(it[0].price*int(y))
                 oid.restaurant_id = it[0].restaurant_id
@@ -402,9 +404,89 @@ def orderlist(request):
         corders.append(corder)
 
     context = {
-        "loggedin":1,
+        "loggedin":2,
         "username":z[1],
         "orders" : corders,
     }
 
     return render(request,"orders-list.html",context)
+
+
+def edit(request):
+
+    z = check_login_cookie(request)
+
+    if z == 0:
+        return redirect('/login/')
+
+    if z[0] == 1:
+        return redirect('/')
+
+    if request.POST:
+
+        pass
+
+    return redirect('/profile/')
+
+
+def orderhistory(request,username):
+
+    users = md.User.objects.filter(username=username)
+
+    if len(users) == 1:
+        user = users[0]
+
+        orders = md.Order.objects.filter(orderedby=user).order_by('-timestamp')
+
+        corders = []
+
+        for order in orders:
+            rest = md.Restaurant.objects.filter(id=order.restaurant_id.id)
+
+            rest = rest[0]
+            corder = []
+            corder.append(rest.name)
+            items_list = md.OrderItems.objects.filter(oid=order)
+
+            items = []
+
+            for item in items_list:
+                citem = []
+                citem.append(item.item)
+                citem.append(item.quantity)
+                menu = md.Menu.objects.filter(id=item.item.id)
+                citem.append(menu[0].price*item.quantity)
+                menu = 0
+                items.append(citem)
+
+            corder.append(items)
+            corder.append(order.total_amount)
+            corder.append(order.id)
+
+            x = order.status
+
+            if x == md.Order.ORDER_STATE_WAITING:
+                continue
+            elif x == md.Order.ORDER_STATE_PLACED:
+                x = 1
+            elif x == md.Order.ORDER_STATE_ACKNOWLEDGED:
+                x = 2
+            elif x == md.Order.ORDER_STATE_COMPLETED:
+                x = 3
+            elif x == md.Order.ORDER_STATE_DISPATCHED:
+                x = 4
+            elif x == md.Order.ORDER_STATE_CANCELLED:
+                x = 5
+            else:
+                continue
+
+            corder.append(x)
+            corders.append(corder)
+
+        context = {
+            "loggedin":2,
+            "username":username,
+            "orders" : corders,
+        }
+
+        return render(request,"orders-history.html",context)

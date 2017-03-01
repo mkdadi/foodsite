@@ -1,0 +1,60 @@
+{% load staticfiles %}
+{% include 'header.html' %}
+{% for order in orders %}
+	<div class="Popular-Restaurants-content" style="padding-bottom: 0;">
+		<div class="Popular-Restaurants-grids">
+			<div class="container">
+				<div class="Popular-Restaurants-grid wow fadeInRight" data-wow-delay="0.4s">
+					<div class="col-md-12 restaurent-title">
+						<div class="logo-title" style="border: 0;">
+							<h4>{{order.0}}</h4>
+						</div>
+					</div>
+                    <div class="col-md-12 order-form-grid  wow fadeInLeft">
+                        <h5>Order Information</h5>
+                        <span>Items List:</span>
+                        <div>
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Quantity
+                                    </th>
+                                    <th>
+                                        Price
+                                    </th>
+                                </thead>
+                                {% for x in order.1 %}
+                                    <tr><td>{{x.0}}</td><td>{{x.1}}</td><td>{{x.2}}</td></tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+					<div class="col-md-12 buy"  style="display: inline-block;">
+						<span>Total price: {{order.2}}</span>
+                        <span  style="display: inline;">Status:</span>
+                            <b>{% if order.4 == 1 %}
+                            Placed
+                            {% endif %}
+                            {% if order.4 == 2 %}
+                            Acknowledged
+                            {% endif %}
+                            {% if order.4 == 3 %}
+                            Completed
+                            {% endif %}
+                            {% if order.4 == 4 %}
+                            Dispatched
+                            {% endif %}
+                            {% if order.4 == 5 %}
+                            Cancelled
+                            {% endif %}</b>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endfor %}
+{% include 'footer.html' %}

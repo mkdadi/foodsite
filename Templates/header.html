@@ -59,7 +59,11 @@
 				<div class="top-menu">
 					<ul>
 						<li><a href="/">Home</a></li>|
+						{% if loggedin == 2 %}
+						<li><a href="/edit/">Edit</a></li>|
+						{% else %}
 						<li><a href="/search/">Search</a></li>|
+						{% endif %}
 						<li><a href="/profile/">My Profile</a></li>
 						<div class="clearfix"></div>
 					</ul>

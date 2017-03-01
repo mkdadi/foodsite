@@ -1,3 +1,41 @@
 
 {% load staticfiles %}
 {% include 'header.html' %}
+
+<div class="order-top" style="border:0">
+			<li class="item-lists" style="width:100%"><h4>Items</h4>
+				<table class="table table-hover table-bordered">
+					<thead>
+						<th>Item</th>
+						<th>Price</th>
+						<th>Quantity</th>
+					</thead>
+				{% for x in items %}
+					<tr>
+					<td><input type="text" value="{{x.0}}" name="price"/></td>
+					<td><input type="text" value="{{x.1}}" name="price"/></td>
+					<td><input type="text" value="{{x.2}}" name="price"/></td>
+					{% if x.4 == "Open" %}
+					{% if x.3 != 0 %}
+					<td>
+						<span style="border:2px ;padding-left: 10px;padding-right: 10px; cursor:pointer;display:inline-block" onclick="if(document.querySelector('#itemno{{x.5}}').innerHTML>0){document.querySelector('#itemno{{x.5}}').innerHTML--;minuscounter({{x.5}});}">-</span>
+						<span id='itemno{{x.5}}'> 0 </span>
+						<span style="border:2px ;border-radius:5px; cursor:pointer;padding-left: 10px;padding-right: 10px; display:inline-block;display:inline-block" onclick="if(document.querySelector('#itemno{{x.5}}').innerHTML<{{x.3}}){document.querySelector('#itemno{{x.5}}').innerHTML++;pluscounter({{x.5}});}">+</span>
+					</td>
+					{% else %}
+					<td>
+						NA
+					</td>
+					{% endif %}
+					{% else %}
+					<td>
+						Closed
+					</td>
+					{% endif %}
+					</tr>
+				{% endfor %}
+				</table>
+			</li>
+		</div>
+
+{% include 'footer.html' %}

@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.views.generic.base import RedirectView
 from django.contrib import admin
-from views import homepage,login,profile,restaurants,register,logout,checkout,orderlist
+from views import homepage,login,profile,restaurants,register,logout,checkout,orderlist,edit
 
 RedirectView.permanent=True
 
@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^logout/$',logout),
     url(r'^checkout/$',checkout),
     url(r'^orders/$',orderlist),
+    url(r'^edit/$',edit),
     url(r'^.*$',RedirectView.as_view(url="/")),#redirection if not found
 ]
