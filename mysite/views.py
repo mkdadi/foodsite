@@ -38,7 +38,7 @@ def homepage(request):
         if x[0] == 1:
             return redirect(restaurants)#render(request,'order.html',context)
         else:
-            return render(request,'edit.html',context)
+            return redirect(orderlist)
 
 
 def userlogin(request):
@@ -189,6 +189,8 @@ def restaurants(request,restid="0"):
     z=check_login_cookie(request)
     if z == 0:
         return redirect('/login/')
+    if z[0] == 2:
+        return redirect('/')
     if restid != "0":
         menu = md.Menu.objects.filter(restaurant_id=restid)
         rest = md.Restaurant.objects.filter(id=restid)
@@ -269,7 +271,6 @@ def checkout(request):
     if request.POST:
         addr = request.POST['address']
         oid = request.POST['oid']
-        print oid
         md.Order.objects.filter(id=int(oid)).update(delivery_addr = addr,
                                                     status=md.Order.ORDER_STATE_PLACED)
 
@@ -297,6 +298,7 @@ def checkout(request):
                 item.append(it[0])
                 item.append(y)
                 item.append(it[0].price*int(y))
+                oid.restaurant_id = it[0].restaurant_id
             items.append(item)
         oid.total_amount = totalprice
         oid.save()
@@ -311,4 +313,98 @@ def checkout(request):
 
 
 def orderlist(request):
-    pass
+
+    z = check_login_cookie(request)
+
+    if z==0:
+        return redirect('/login/')
+
+    if z[0] == 1:
+        return redirect('/')
+
+
+    if request.POST:
+        oid = request.POST['orderid']
+        select = request.POST['orderstatus']
+
+        select = int(select)
+
+        order = md.Order.objects.filter(id=oid)
+
+        if len(order):
+            x = md.Order.ORDER_STATE_WAITING
+            if select == 1:
+                x = md.Order.ORDER_STATE_PLACED
+            elif select == 2:
+                x = md.Order.ORDER_STATE_ACKNOWLEDGED
+            elif select == 3:
+                x = md.Order.ORDER_STATE_COMPLETED
+            elif select == 4:
+                x = md.Order.ORDER_STATE_DISPATCHED
+            elif select == 5:
+                x = md.Order.ORDER_STATE_CANCELLED
+            else:
+                x = md.Order.ORDER_STATE_WAITING
+            order[0].status = x
+            order[0].save()
+
+
+
+    orders = md.Order.objects.filter(restaurant_id=z[1]).order_by('-timestamp')
+
+    corders = []
+
+    for order in orders:
+
+        user = md.User.objects.filter(id=order.orderedby.id)
+
+        user = user[0]
+        corder = []
+        corder.append(user.name)
+        corder.append(user.contact)
+        items_list = md.OrderItems.objects.filter(oid=order)
+
+        items = []
+
+        for item in items_list:
+            citem = []
+            citem.append(item.item)
+            citem.append(item.quantity)
+            menu = md.Menu.objects.filter(id=item.item.id)
+            citem.append(menu[0].price*item.quantity)
+            menu = 0
+            items.append(citem)
+
+        corder.append(items)
+        corder.append(order.total_amount)
+        corder.append(order.id)
+
+        x = order.status
+
+        if x == md.Order.ORDER_STATE_WAITING:
+            continue
+        elif x == md.Order.ORDER_STATE_PLACED:
+            x = 1
+        elif x == md.Order.ORDER_STATE_ACKNOWLEDGED:
+            x = 2
+        elif x == md.Order.ORDER_STATE_COMPLETED:
+            x = 3
+        elif x == md.Order.ORDER_STATE_DISPATCHED:
+            x = 4
+        elif x == md.Order.ORDER_STATE_CANCELLED:
+            x = 5
+        else:
+            continue
+
+        corder.append(x)
+        corder.append(order.delivery_addr)
+
+        corders.append(corder)
+
+    context = {
+        "loggedin":1,
+        "username":z[1],
+        "orders" : corders,
+    }
+
+    return render(request,"orders-list.html",context)

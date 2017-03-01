@@ -10,6 +10,30 @@ class User(models.Model):
 		return self.username
 
 
+
+class Restaurant(models.Model):
+	id = models.CharField(max_length=20,blank=False,unique=True,primary_key=True)
+	name = models.CharField(max_length=100,blank=False)
+	password = models.CharField(max_length=100,blank=False)
+	info = models.TextField()
+	location = models.TextField()
+
+	REST_STATE_CLOSED = "Closed"
+	REST_STATE_OPEN = "Open"
+
+	REST_STATE_CHOICES = (
+		(REST_STATE_OPEN,REST_STATE_OPEN),
+		(REST_STATE_CLOSED,REST_STATE_CLOSED)
+	)
+
+	status = models.CharField(max_length=50,choices=REST_STATE_CHOICES,default=REST_STATE_OPEN)
+	approved = models.BooleanField(blank=False,default=False)
+
+
+	def __unicode__(self):
+		return self.name
+
+
 class Order(models.Model):
 	id = models.IntegerField(blank=False)
 	id = models.AutoField(primary_key=True)
@@ -17,6 +41,7 @@ class Order(models.Model):
 	timestamp = models.DateTimeField(auto_now_add=True)
 	delivery_addr = models.CharField(max_length=50,blank=True)
 	orderedby = models.ForeignKey(User)
+	restaurant_id = models.ForeignKey(Restaurant)
 	ORDER_STATE_WAITING = "Waiting"
 	ORDER_STATE_PLACED = "Placed"
 	ORDER_STATE_ACKNOWLEDGED = "Acknowledged"
@@ -48,29 +73,6 @@ class Item(models.Model):
 		return  self.name
 
 
-class Restaurant(models.Model):
-	id = models.CharField(max_length=20,blank=False,unique=True,primary_key=True)
-	name = models.CharField(max_length=100,blank=False)
-	password = models.CharField(max_length=100,blank=False)
-	info = models.TextField()
-	location = models.TextField()
-
-	REST_STATE_CLOSED = "Closed"
-	REST_STATE_OPEN = "Open"
-
-	REST_STATE_CHOICES = (
-		(REST_STATE_OPEN,REST_STATE_OPEN),
-		(REST_STATE_CLOSED,REST_STATE_CLOSED)
-	)
-
-	status = models.CharField(max_length=50,choices=REST_STATE_CHOICES,default=REST_STATE_OPEN)
-	approved = models.BooleanField(blank=False,default=False)
-
-
-	def __unicode__(self):
-		return self.name
-
-
 class Menu(models.Model):
 	id = models.IntegerField(blank=False)
 	id = models.AutoField(primary_key=True)
@@ -82,7 +84,7 @@ class Menu(models.Model):
 	quantity = models.IntegerField(blank=False,default=0)
 
 	def __unicode__(self):
-		return self.item_id.name+' - '+self.restaurant_id.name+' - '+str(self.price)
+		return self.item_id.name+' - '+str(self.price)
 
 
 

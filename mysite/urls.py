@@ -30,6 +30,6 @@ urlpatterns = [
     url(r'^search/(?P<restid>\w+)$',restaurants),
     url(r'^logout/$',logout),
     url(r'^checkout/$',checkout),
-    url(r'^orderlist/$',orderlist),
+    url(r'^orders/$',orderlist),
     url(r'^.*$',RedirectView.as_view(url="/")),#redirection if not found
 ]
