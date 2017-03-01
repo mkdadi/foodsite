@@ -16,7 +16,7 @@ class Order(models.Model):
 	total_amount = models.IntegerField(default=0)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	delivery_addr = models.CharField(max_length=50,blank=True)
-
+	orderedby = models.ForeignKey(User)
 	ORDER_STATE_WAITING = "Waiting"
 	ORDER_STATE_PLACED = "Placed"
 	ORDER_STATE_ACKNOWLEDGED = "Acknowledged"

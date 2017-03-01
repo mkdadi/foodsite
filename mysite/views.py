@@ -179,6 +179,7 @@ def profile(request):
                 'name' : rest.name,
                 'info' : rest.info,
                 'location' : rest.location,
+                'approval':rest.approved,
             }
 
             return render(request,'profile.html',context)
@@ -191,6 +192,9 @@ def restaurants(request,restid="0"):
     if restid != "0":
         menu = md.Menu.objects.filter(restaurant_id=restid)
         rest = md.Restaurant.objects.filter(id=restid)
+
+        if len(rest) != 1:
+            return redirect('/search/')
 
         items = []
         for x in menu:
@@ -260,6 +264,8 @@ def checkout(request):
     z=check_login_cookie(request)
     if z == 0:
         return redirect('/login/')
+    if z[0] == 2:
+        return redirect('/')
     if request.POST:
         addr = request.POST['address']
         oid = request.POST['oid']
@@ -274,7 +280,9 @@ def checkout(request):
         cart = dict(Counter(cart))
         items = []
         totalprice = 0
+        uid = md.User.objects.filter(username=z[1])
         oid = md.Order()
+        oid.orderedby = uid[0]
         oid.save()
         for x,y in cart.iteritems():
             item = []

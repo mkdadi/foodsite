@@ -47,11 +47,19 @@
       </tr>
       <tr>
         <td>Info</td>
-        <td>{{info}}</td>
+        <td>{{info|safe}}</td>
       </tr>
         <tr>
         <td>Location</td>
         <td>{{location}}</td>
+      </tr>
+      <tr>
+        <td>Approved</td>
+        {% if approval %}
+        <td>Yes</td>
+        {% else %}
+        <td>No</td>
+        {% endif %}
       </tr>
     </tbody>
   </table>

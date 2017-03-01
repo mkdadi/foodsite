@@ -8,8 +8,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 {% include 'header.html' %}
 <div class="bs-callout bs-callout-info" style="width: 80%;margin-left: 10%;">
   <h4>{{restname}}</h4>
-  	<p>
-		<b>Info : </b>{{restinfo}}
+	<p>
+		<b>Info : </b>{{restinfo|safe}}
 		<br/>
 		<b>Location: </b>{{restlocation}}
 	</p>
