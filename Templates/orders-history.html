@@ -1,9 +1,17 @@
 {% load staticfiles %}
 {% include 'header.html' %}
-{% for order in orders %}
 	<div class="Popular-Restaurants-content" style="padding-bottom: 0;">
 		<div class="Popular-Restaurants-grids">
 			<div class="container">
+                <div class="bs-callout bs-callout-info" style="width: 80%;margin-left: 10%;">
+                  <h4>Suggestion</h4>
+                    <p>
+                        <b>Item : </b>{{suggestionitem}}
+                        <br/>
+                        <b>Restaurant: </b><a href="/search/{{suggestionrestid}}">{{suggestionrest}}</a>
+                    </p>
+                </div>
+                {% for order in orders %}
 				<div class="Popular-Restaurants-grid wow fadeInRight" data-wow-delay="0.4s">
 					<div class="col-md-12 restaurent-title">
 						<div class="logo-title" style="border: 0;">
@@ -53,8 +61,8 @@
 					</div>
 					<div class="clearfix"></div>
 				</div>
+                {% endfor %}
 			</div>
 		</div>
 	</div>
-{% endfor %}
 {% include 'footer.html' %}

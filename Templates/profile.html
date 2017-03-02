@@ -54,6 +54,23 @@
         <td>{{location}}</td>
       </tr>
       <tr>
+        <td>Status</td>
+        <td>
+          <form action="" method="POST">{%csrf_token%}
+          <select name="status">
+          {% if open %}
+          <option value="1" selected>Open</option>
+          <option value="2">Closed</option>
+          {% else %}
+          <option value="1">Open</option>
+          <option value="2" selected>Closed</option>
+          {% endif %}
+        </select>
+            <input type="submit" value="Set" name="submit"/>
+            </form>
+        </td>
+      </tr>
+      <tr>
         <td>Approved</td>
         {% if approval %}
         <td>Yes</td>

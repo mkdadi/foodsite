@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from collections import Counter
 import models as md
+import operator
 
 
 hash = "gbgfadbvm@3y77*^dnbvfh!nhbvb"
@@ -171,6 +172,17 @@ def profile(request):
         else:
             rests = md.Restaurant.objects.filter(id=x[1])
             rest = rests[0]
+
+            if request.POST:
+                status = int(request.POST['status'])
+
+                if status == 1:
+                    rest.status = md.Restaurant.REST_STATE_OPEN
+                else:
+                    rest.status = md.Restaurant.REST_STATE_CLOSED
+
+                rest.save()
+
             context = {
                 'login' : 2,
                 'loggedin':2,
@@ -181,6 +193,11 @@ def profile(request):
                 'location' : rest.location,
                 'approval':rest.approved,
             }
+
+            if rest.status == md.Restaurant.REST_STATE_OPEN:
+                context['open'] = 1
+            else:
+                context['open'] = 0
 
             return render(request,'profile.html',context)
 
@@ -227,6 +244,7 @@ def restaurants(request,restid="0"):
         rests = md.Restaurant.objects.filter(approved=True)
         search=request.GET.get('category',0)
         placed = request.GET.get('placed',0)
+
         if search==0:
             context = {
                 "rests" : rests,
@@ -436,6 +454,27 @@ def orderhistory(request,username):
     if len(users) == 1:
         user = users[0]
 
+        myorders = md.Order.objects.filter(orderedby=user)
+
+        menus = []
+
+        for myorder in myorders:
+
+            if (myorder.status != md.Order.ORDER_STATE_WAITING
+                and myorder.status != md.Order.ORDER_STATE_CANCELLED):
+                items = md.OrderItems.objects.filter(oid=myorder)
+
+                for item in items:
+                    menus.append(item.item.id)
+
+        menucount = dict(Counter(menus))
+
+        maxmenu = max(menucount.iteritems(), key=operator.itemgetter(1))[0]
+
+        suggestions = md.Menu.objects.filter(id=maxmenu)
+
+        suggestion = suggestions[0]
+
         orders = md.Order.objects.filter(orderedby=user).order_by('-timestamp')
 
         corders = []
@@ -484,9 +523,12 @@ def orderhistory(request,username):
             corders.append(corder)
 
         context = {
-            "loggedin":2,
+            "loggedin": 1,
             "username":username,
             "orders" : corders,
+            "suggestionitem": suggestion.item_id,
+            "suggestionrest" : suggestion.restaurant_id,
+            "suggestionrestid" : suggestion.restaurant_id.id,
         }
 
         return render(request,"orders-history.html",context)

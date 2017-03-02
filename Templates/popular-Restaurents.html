@@ -26,12 +26,7 @@
 					</div>
 					<div class="col-md-4 restaurent-title">
 						<div class="logo-title" style="border: 0;">
-							{% if rest.status == "Closed" %}
-							<h4><a href="#">{{rest.name}}</a></h4>
-							{% endif %}
-							{% if rest.status == "Open" %}
 							<h4><a href="{{rest.id}}">{{rest.name}}</a></h4>
-							{% endif %}
 						</div>
 					</div>
 					<div class="col-md-2">
@@ -43,12 +38,7 @@
 						{% endif %}
 					</div>
 					<div class="col-md-4 buy">
-						{% if rest.status == "Closed" %}
-						<a class="morebtn hvr-rectangle-in" href="#">Enter</a>
-						{% endif %}
-						{% if rest.status == "Open" %}
 						<a class="morebtn hvr-rectangle-in" href="{{rest.id}}">Enter</a>
-						{% endif %}
 					</div>
 					<div class="clearfix"></div>
 				</div>
