@@ -259,7 +259,7 @@ def restaurants(request,restid="0"):
             for x in items:
                 menu = md.Menu.objects.filter(item_id=x.id)
                 for a in menu:
-                    restaurants1 = md.Restaurant.objects.filter(name=a.restaurant_id)
+                    restaurants1 = md.Restaurant.objects.filter(name=a.restaurant_id,approved=True)
                     for b in restaurants1:
                         if b not in srests:
                             srests.append(b)
