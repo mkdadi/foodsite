@@ -440,11 +440,68 @@ def edit(request):
     if z[0] == 1:
         return redirect('/')
 
+    rest = md.Restaurant.objects.filter(id=z[1])
+
+    rest = rest[0]
+
     if request.POST:
+        type = request.POST['submit']
 
-        pass
+        if type == "Modify":
+            menuid = int(request.POST['menuid'])
 
-    return redirect('/profile/')
+            menu = md.Menu.objects.filter(id=menuid).\
+                update(price=int(request.POST['price']),quantity=int(request.POST['quantity']))
+        elif type == "Add":
+            itemid = int(request.POST['item'])
+
+            item = md.Item.objects.filter(id=itemid)
+            item = item[0]
+
+            menu = md.Menu()
+
+            menu.item_id = item
+            menu.restaurant_id = rest
+            menu.price = int(request.POST['price'])
+            menu.quantity = int(request.POST['quantity'])
+            menu.save()
+        else:
+            menuid = int(request.POST['menuid'])
+            menu = md.Menu.objects.filter(id=menuid)
+            menu[0].delete()
+
+    menuitems = md.Menu.objects.filter(restaurant_id=rest)
+
+    menu = []
+
+    for x in menuitems:
+        cmenu = []
+
+        cmenu.append(x.item_id)
+        cmenu.append(x.price)
+        cmenu.append(x.quantity)
+        cmenu.append(x.id)
+
+        menu.append(cmenu)
+
+    menuitems = md.Item.objects.all()
+
+    items = []
+
+    for y in menuitems:
+        citem = []
+        citem.append(y.id)
+        citem.append(y.name)
+
+        items.append(citem)
+
+    context = {
+        "loggedin" :2,
+        "username":z[1],
+        "items":items,
+        "menu":menu,
+    }
+    return render(request,'edit.html',context)
 
 
 def orderhistory(request,username):
