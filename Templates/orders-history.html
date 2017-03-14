@@ -5,11 +5,17 @@
 			<div class="container">
                 <div class="bs-callout bs-callout-info" style="width: 80%;margin-left: 10%;">
                   <h4>Suggestion</h4>
+                    {% if suggestion %}
                     <p>
                         <b>Item : </b>{{suggestionitem}}
                         <br/>
                         <b>Restaurant: </b><a href="/search/{{suggestionrestid}}">{{suggestionrest}}</a>
                     </p>
+                    {% else %}
+                    <p>
+                        No orders made yet, Please make some orders to see suggestions here.
+                    </p>
+                    {% endif %}
                 </div>
                 {% for order in orders %}
 				<div class="Popular-Restaurants-grid wow fadeInRight" data-wow-delay="0.4s">

@@ -508,6 +508,8 @@ def orderhistory(request,username):
 
     users = md.User.objects.filter(username=username)
 
+    context = {}
+
     if len(users) == 1:
         user = users[0]
 
@@ -524,13 +526,24 @@ def orderhistory(request,username):
                 for item in items:
                     menus.append(item.item.id)
 
-        menucount = dict(Counter(menus))
 
-        maxmenu = max(menucount.iteritems(), key=operator.itemgetter(1))[0]
+        if len(menus) > 0:
 
-        suggestions = md.Menu.objects.filter(id=maxmenu)
+            menucount = dict(Counter(menus))
+            maxmenu = max(menucount.iteritems(), key=operator.itemgetter(1))[0]
 
-        suggestion = suggestions[0]
+            suggestions = md.Menu.objects.filter(id=maxmenu)
+
+            suggestion = suggestions[0]
+
+
+            context["suggestionitem"] = suggestion.item_id
+            context["suggestionrest"] = suggestion.restaurant_id
+            context["suggestionrestid"] = suggestion.restaurant_id.id
+            context["suggestion"] = 1
+
+        else:
+            context["suggestion"] = 0
 
         orders = md.Order.objects.filter(orderedby=user).order_by('-timestamp')
 
@@ -579,13 +592,8 @@ def orderhistory(request,username):
             corder.append(x)
             corders.append(corder)
 
-        context = {
-            "loggedin": 1,
-            "username":username,
-            "orders" : corders,
-            "suggestionitem": suggestion.item_id,
-            "suggestionrest" : suggestion.restaurant_id,
-            "suggestionrestid" : suggestion.restaurant_id.id,
-        }
+        context["loggedin"] = 1
+        context["username"] = username
+        context["orders"] = corders
 
         return render(request,"orders-history.html",context)
